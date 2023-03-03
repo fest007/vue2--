@@ -10,11 +10,12 @@
     <body>
         <div id="blog-posts-events-demo">
             <div :style="{fontSize: postFontSize + 'em'}">
+                <!-- 使用$event来接受子组件通过$emit()抛出的值,如果调用的是方法，则$event会作为函数的第一个参数 -->
                 <blog-post
                     v-for="post in posts"
                     v-bind:key="post.id"
                     v-bind:post="post"
-                    v-on:enlarge-text="postFontSize += 0.1"></blog-post>
+                    v-on:enlarge-text="postFontSize += $event"></blog-post>
             </div>
         </div>
     </body>
@@ -25,11 +26,12 @@
         Vue.component('blog-post', {
             // props用来接收传入的prop
             props: ['post'],
+            // 可以使用$emit()抛出一个值
             template: `
                     <div class="blog-post">
                         <h3>{{post.title}}</h3>
                         <div v-html='post.content'></div>
-                        <button v-on:click="$emit('enlarge-text')">点击字体变大</button>
+                        <button v-on:click="$emit('enlarge-text', 0.1)">点击字体变大</button>
                     </div>
             `
         })
