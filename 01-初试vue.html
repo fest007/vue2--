@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="./vue.js"></script>
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="app">
+            {{message}}
+        </div>
+
+        <div id="app2">
+            <span v-bind:title="message">
+                鼠标停留查看信息
+            </span>
+        </div>
+
+        <div id="app3">
+            <span v-if="seen">
+                你现在看到我啦
+            </span>
+        </div>
+
+        <div id="app4">
+            <ol>
+                <li v-for="todo in todos">
+                    {{todo.text}}
+                </li>
+            </ol>
+        </div>
+
+        <div id="app5">
+            <p>{{message}}</p>
+            <button v-on:click="reverseMessage">反转消息</button>
+        </div>
+
+        <div id="app6">
+            <p>{{message}}</p>
+            <input type="text" v-model="message">
+
+            <div v-if="Math.random() > 0.5">
+                Now you see me
+            </div>
+            <div v-else>
+                Now you don't
+            </div>
+
+            
+        </div>
+
+        
+    </body>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data:{
+                message: 'Hello World!'
+            }
+        })
+
+        const app2 = new Vue({
+            el: '#app2',
+            data:{
+                message: '页面加载于' + new Date().toLocaleString()
+            }
+        })
+
+        const app3 = new Vue({
+            el: '#app3',
+            data:{
+                seen: true
+            }
+        })
+
+        const app4 = new Vue({
+            el: '#app4',
+            data:{
+                todos: [
+                    {text: '学习js'},
+                    {text:'学习vue'},
+                    {text: '整个牛项目'}
+                ]
+            }
+        })
+
+        const app5 = new Vue({
+            el: '#app5',
+            data:{
+                message: '我厉害不'
+            },
+            methods: {
+                reverseMessage: function() {
+                    // console.log(this.message);
+                    this.message = this.message.split('').reverse().join('')
+                }
+            }
+        })
+
+        const app6 = new Vue({
+            el: '#app6',
+            data:{
+                message: '我厉害不'
+            },
+        })
+    </script>
+</html>

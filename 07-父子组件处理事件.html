@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="blog-posts-events-demo">
+            <div :style="{fontSize: postFontSize + 'em'}">
+                <blog-post
+                    v-for="post in posts"
+                    v-bind:key="post.id"
+                    v-bind:post="post"
+                    v-on:enlarge-text="postFontSize += 0.1"></blog-post>
+            </div>
+        </div>
+    </body>
+
+    <script src='./vue.js'></script>
+    <script>
+        // 组件注册
+        Vue.component('blog-post', {
+            // props用来接收传入的prop
+            props: ['post'],
+            template: `
+                    <div class="blog-post">
+                        <h3>{{post.title}}</h3>
+                        <div v-html='post.content'></div>
+                        <button v-on:click="$emit('enlarge-text')">点击字体变大</button>
+                    </div>
+            `
+        })
+
+        const vm = new Vue({
+            el: '#blog-posts-events-demo',
+            data: {
+                posts: [
+                    {id: 1, title:'大', content: '这是文本'},
+                    {id: 2, title:'中', content: '这是文本'},
+                    {id: 3, title:'小', content: '这是文本'},
+                ],
+                postFontSize: 1
+            }
+        })
+    </script>
+</html>

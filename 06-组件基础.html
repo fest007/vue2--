@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="component-demo">
+            <button-counter></button-counter>
+            <button-counter></button-counter>
+            <button-counter></button-counter>
+            <blog-post title="我厉害"></blog-post>
+            <blog-post title="好厉害"></blog-post>
+            <blog-post title="不厉害"></blog-post>
+        </div>
+
+        <div id="blog-post-demo">
+            <!-- 使用v-bind传递prop -->
+            <blog-post 
+                v-for="post in posts"
+                v-bind:key="post.id"
+                v-bind:title="post.title"></blog-post>
+        </div>
+    </body>
+
+    <script src='./vue.js'></script>
+    <script>
+        // 组件注册
+        Vue.component('button-counter', {
+            // 组件的data必须是一个函数，如果只是返回对象，那么多个组件实例就会共享一个data对象
+            // 多个组件就会相互影响
+            data: function() {
+                return {
+                    count: 0
+                }
+            },
+            template: '<button v-on:click="count++">You clicked me {{count}} times. </button>'
+        })
+
+        // Vue.component('blog-post', {
+        //     // props用来接收传入的prop
+        //     props: ['title'],
+        //     template: '<h3>{{title}}</h3>'
+        // })
+
+        // 接收prop数据简便化
+        Vue.component('blog-post', {
+            // props用来接收传入的prop
+            props: ['post'],
+            template: `
+                    <div class="blog-post">
+                        <h3>{{post.title}}</h3>
+                        <div v-html='post.content'></div>
+                    </div>
+            `
+        })
+
+
+
+        const vm = new Vue({
+            el: '#component-demo'
+        })
+
+        const vm2 = new Vue({
+            el: '#blog-post-demo',
+            data: {
+                posts: [
+                    {id: 1, title:'大'},
+                    {id: 2, title:'中'},
+                    {id: 3, title:'小'},
+                ]
+            }
+        })
+    </script>
+</html>
